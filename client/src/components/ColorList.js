@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
-import { Redirect } from "react-router-dom"
 
 const initialColor = {
   color: "",
@@ -12,6 +10,10 @@ const ColorList = ({ colors, updateColors }) => {
   console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
+  const [newColor, setNewColor] = useState({
+    color: "",
+    hex: "#"
+  })
 
   const editColor = color => {
     setEditing(true);
@@ -46,6 +48,27 @@ const ColorList = ({ colors, updateColors }) => {
       .catch(err => console.log(err))
 
   };
+
+  const handleChange = e => {
+    setNewColor({
+      ...newColor,
+      [e.target.name]: e.target.value
+    })
+
+  }
+
+  const addColor = e => {
+    e.preventDefault();
+    const colorSubmitted = {
+      color: newColor.color,
+      code: {hex: newColor.hex}
+    }
+    console.log(colorSubmitted)
+    axiosWithAuth()
+      .post("/api/colors", colorSubmitted)
+      .then(res => updateColors(res.data))
+      .catch(err => console.log(err.response));    
+  }
 
   return (
     <div className="colors-wrap">
@@ -96,8 +119,32 @@ const ColorList = ({ colors, updateColors }) => {
           </div>
         </form>
       )}
-      <div className="spacer" />
-      {/* stretch - build another form here to add a color */}
+      <div className="new-color" >
+        {/* stretch - build another form here to add a color */}
+        <form onSubmit={addColor}>
+          <legend>add new color</legend>
+          <label>
+            color name:
+            <input 
+              type="text"
+              name="color"
+              value={newColor.color}
+              onChange={e => handleChange(e)}
+            />
+          </label>
+          <label>
+            hex code:
+            <input 
+              type="text"
+              name="hex"
+              value={newColor.hex}
+              onChange={e => handleChange(e)}
+            />
+          </label>
+          <button type="submit">Add Color</button>
+
+        </form>
+      </div>
     </div>
   );
 };
