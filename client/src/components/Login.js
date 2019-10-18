@@ -1,58 +1,67 @@
 import React, { useState } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
+import { useHistory } from "react-router-dom"
 
-const Login = () => {
+class Login extends React.Component {
   // make a post request to retrieve a token from the api
   // when you have handled the token, navigate to the BubblePage route
-  const [credentials, setCredentials] = useState({
-    username: "",
-    password: ""
-  })
-
-  const handleChange = event => {
-    setCredentials({
-      ...credentials,
-      [event.target.name]: event.target.value
-    })
+  state = {
+    credentials: {
+      username: "",
+      password: ""
+    }
   }
 
-  const login = event => {
+  handleChange = e => {
+    this.setState({
+      credentials: {
+        ...this.state.credentials,
+        [e.target.name]: e.target.value
+      }
+    });
+  };
+
+  login = event => {
     event.preventDefault();
     axiosWithAuth()
-      .post("/api/login", credentials)
-      .then(res => console.log(res))
-      .catch(err => console.log(err))
+      .post("/api/login", this.state.credentials)
+      .then(res => {
+        localStorage.setItem("token", res.data.payload);
+        this.props.history.push("/bubblepage")
+      })
+      .catch(err => console.log(err))  
   }
 
-
-  return (
-    <div className="login-form">
-      <h2>React Bubbles Login</h2>
-      <form onSubmit={login}>
-        <label>
-          Username:
-          <input
-            type="text"
-            name="username"
-            value={credentials.username}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={credentials.password}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-        <button>Log In</button>
-      </form>
-    </div>
-  );
+  render() {
+    return (
+      <div className="login-form">
+        <h2>React Bubbles Login</h2>
+        <form onSubmit={this.login}>
+          <label>
+            Username:
+            <input
+              type="text"
+              name="username"
+              value={this.state.credentials.username}
+              onChange={this.handleChange}
+            />
+          </label>
+          <br />
+          <label>
+            Password:
+            <input
+              type="password"
+              name="password"
+              value={this.state.credentials.password}
+              onChange={this.handleChange}
+            />
+          </label>
+          <br />
+          <button>Log In</button>
+        </form>
+      </div>
+    );
+  }
 };
 
 
