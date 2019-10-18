@@ -141,7 +141,9 @@ const ColorList = ({ colors, updateColors }) => {
               onChange={e => handleChange(e)}
             />
           </label>
+          <div className="button-row">
           <button type="submit">Add Color</button>
+          </div>
 
         </form>
       </div>
