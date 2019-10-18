@@ -9,7 +9,7 @@ const initialColor = {
 };
 
 const ColorList = ({ colors, updateColors }) => {
-  // console.log(colors);
+  console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
@@ -28,6 +28,7 @@ const ColorList = ({ colors, updateColors }) => {
       .put(`/api/colors/${colorToEdit.id}`, colorToEdit)
       .then(res => {
         console.log(res);
+        updateColors(colors.map(color => color.id === colorToEdit.id ? res.data : color))
         // return <Redirect to="bubblepage" />
       })
       .catch(err => console.log(err))
