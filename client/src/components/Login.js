@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
-import { useHistory } from "react-router-dom"
+import { Redirect } from "react-router-dom"
 
 class Login extends React.Component {
   // make a post request to retrieve a token from the api
@@ -33,6 +33,9 @@ class Login extends React.Component {
   }
 
   render() {
+    if (localStorage.getItem("token")) {
+      return <Redirect to="bubblepage" />
+    }
     return (
       <div className="login-form">
         <h2>React Bubbles Login</h2>
