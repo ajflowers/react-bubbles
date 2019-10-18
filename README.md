@@ -29,9 +29,20 @@ In this project you will create a login page and request a token from the server
 Demonstrate your understanding of this Sprint's concepts by answering the following free-form questions. Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your project manager.
 
 - [ ] Explain what a token is used for.
+
+*A JSON Web Token (JWT) is an object passed from the server to a properly authenticated client, which that client can then present with future requests to the server to show it has already been authenticated.
+
 - [ ] What steps can you take in your web apps to keep your data secure?
+
+*Use proper authentication, protected routes, HTTPS encryption.*
+
 - [ ] Describe how web servers work.
+
+*A web server holds the code for a website/app, and it "serves" pages based on this code to browser clients and handles any further requests they send* 
+
 - [ ] Which HTTP methods can be mapped to the CRUD acronym that we use when interfacing with APIs/Servers.
+
+*Create: POST; Read/Retrieve: GET; Update: PUT; Delete: DELETE*
 
 
 ## Project Set Up
